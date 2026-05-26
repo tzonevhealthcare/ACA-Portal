@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ACA Submission Portal — Nicolas Tzonev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f6fb;
+      color: #2d3748;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #1a3c5e 0%, #2d6a9f 100%);
+      color: white;
+      padding: 40px 20px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      left: -40px;
+      width: 280px;
+      height: 280px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+    }
+
+    .header-avatar {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .header p {
+      font-size: 15px;
+      opacity: 0.85;
+      font-weight: 300;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .container {
+      max-width: 780px;
+      margin: -24px auto 40px;
+      padding: 0 16px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── STATUS CARD ── */
+    .status-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .status-left h2 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #718096;
+      margin-bottom: 10px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-available   { background: #f0fff4; color: #276749; }
+    .status-available .status-dot { background: #38a169; box-shadow: 0 0 0 3px #c6f6d5; animation: pulse 2s infinite; }
+
+    .status-on-call     { background: #fff5f5; color: #9b2c2c; }
+    .status-on-call .status-dot { background: #e53e3e; box-shadow: 0 0 0 3px #fed7d7; }
+
+    .status-away        { background: #fffbeb; color: #92400e; }
+    .status-away .status-dot { background: #d97706; box-shadow: 0 0 0 3px #fde68a; }
+
+    .status-offline     { background: #f7fafc; color: #4a5568; }
+    .status-offline .status-dot { background: #a0aec0; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px #c6f6d5; }
+      50%       { box-shadow: 0 0 0 6px #c6f6d5; }
+    }
+
+    .status-right {
+      text-align: right;
+    }
+
+    .status-right .updated {
+      font-size: 12px;
+      color: #a0aec0;
+      margin-bottom: 4px;
+    }
+
+    .status-right .message {
+      font-size: 14px;
+      color: #4a5568;
+      font-style: italic;
+    }
+
+    .status-loading {
+      color: #a0aec0;
+      font-size: 15px;
+    }
+
+    /* ── INFO CARDS ROW ── */
+    .info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .info-card .icon {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .info-card .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #a0aec0;
+      margin-bottom: 4px;
+    }
+
+    .info-card .value {
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .how-it-works h3 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #718096;
+      margin-bottom: 18px;
+    }
+
+    .steps-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #1a3c5e, #2d6a9f);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: #4a5568;
+      line-height: 1.4;
+    }
+
+    .step-arrow {
+      color: #cbd5e0;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ── FORM SECTION ── */
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .form-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a3c5e;
+      margin-bottom: 6px;
+    }
+
+    .form-card .subtitle {
+      font-size: 14px;
+      color: #718096;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .form-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .form-wrapper iframe {
+      width: 100%;
+      height: 780px;
+      border: none;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #a0aec0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .status-card { flex-direction: column; }
+      .status-right { text-align: left; }
+      .info-row { grid-template-columns: 1fr 1fr; }
+      .steps-row { flex-direction: column; }
+      .step-arrow { display: none; }
+      .header h1 { font-size: 22px; }
+      .form-card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-avatar">👋</div>
+    <h1>ACA Submission Portal</h1>
+    <p>Nicolas Tzonev &nbsp;·&nbsp; ACA Healthcare Specialist</p>
+  </div>
+
+  <div class="container">
+
+    <!-- STATUS CARD -->
+    <div class="status-card">
+      <div class="status-left">
+        <h2>Specialist Availability</h2>
+        <div id="status-badge" class="status-badge status-loading">
+          Loading status...
+        </div>
+      </div>
+      <div class="status-right">
+        <div class="updated" id="status-updated">–</div>
+        <div class="message" id="status-message"></div>
+      </div>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="info-row">
+      <div class="info-card">
+        <div class="icon">⚡</div>
+        <div class="label">Avg Turnaround</div>
+        <div class="value">Same Business Day</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">📧</div>
+        <div class="label">Updates Via</div>
+        <div class="value">Automatic Email</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🆔</div>
+        <div class="label">FFM ID</div>
+        <div class="value">Sent When Ready</div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="how-it-works">
+      <h3>How It Works</h3>
+      <div class="steps-row">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">Submit PDF application below</div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">Get confirmation email instantly</div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">Track status on your dashboard</div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">Receive FFM ID by email</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card">
+      <h3>Submit a Client Application</h3>
+      <p class="subtitle">Fill out all fields and attach the completed PDF application. You'll receive a confirmation email immediately after submitting.</p>
+      <div class="form-wrapper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLScicd0CXwxTP7MXW0K8-Qn1gJpdUc7BP0GQMoOrdKx7G9RcdA/viewform?embedded=true"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0">
+          Loading form...
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ACA Submission Portal &nbsp;·&nbsp; Nicolas Tzonev
+    <br/>Questions? Email <a href="mailto:tzonevhealthcare@gmail.com" style="color:#2d6a9f;">tzonevhealthcare@gmail.com</a>
+  </div>
+
+  <!-- LIVE STATUS SCRIPT -->
+  <script>
+    const SHEET_ID = "1E5Xo225xiwm3ExWEsKCzV0zOFamRsHJnt4_hlApzoJ8";
+    const SHEET_NAME = "Specialist Status";
+
+    const STATUS_MAP = {
+      "available":            { label: "Available",           cls: "status-available",  dot: true  },
+      "on a call":            { label: "On a Call",           cls: "status-on-call",    dot: true  },
+      "away - back shortly":  { label: "Away — Back Shortly", cls: "status-away",       dot: true  },
+      "offline for the day":  { label: "Offline for the Day", cls: "status-offline",    dot: true  },
+    };
+
+    function normalizeStatus(raw) {
+      if (!raw) return null;
+      return raw.toString().toLowerCase().trim()
+        .replace(/[^\w\s\-]/g, "")
+        .trim();
+    }
+
+    function renderStatus(raw, updated, message) {
+      const key = normalizeStatus(raw);
+      const badge = document.getElementById("status-badge");
+      const updatedEl = document.getElementById("status-updated");
+      const messageEl = document.getElementById("status-message");
+
+      let matched = null;
+      for (var k in STATUS_MAP) {
+        if (key && key.indexOf(k) !== -1) {
+          matched = STATUS_MAP[k];
+          break;
+        }
+      }
+
+      if (!matched) {
+        badge.className = "status-badge status-offline";
+        badge.innerHTML = '<span class="status-dot"></span>' + (raw || "Unknown");
+      } else {
+        badge.className = "status-badge " + matched.cls;
+        badge.innerHTML = '<span class="status-dot"></span>' + matched.label;
+      }
+
+      updatedEl.textContent = updated ? "Last updated: " + updated : "";
+      messageEl.textContent = message || "";
+    }
+
+    function fetchStatus() {
+      var url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+                "/gviz/tq?tqx=out:json&sheet=" + encodeURIComponent(SHEET_NAME) +
+                "&range=B1:B3";
+
+      fetch(url)
+        .then(function(r) { return r.text(); })
+        .then(function(text) {
+          var json = JSON.parse(text.replace(/^[^(]+\(/, "").replace(/\);?\s*$/, ""));
+          var rows = json.table.rows;
+          var status  = rows[0] && rows[0].c[0] && rows[0].c[0].v ? rows[0].c[0].v : "";
+          var updated = rows[1] && rows[1].c[0] && rows[1].c[0].v ? rows[1].c[0].v : "";
+          var message = rows[2] && rows[2].c[0] && rows[2].c[0].v ? rows[2].c[0].v : "";
+          renderStatus(status, updated, message);
+        })
+        .catch(function() {
+          document.getElementById("status-badge").className = "status-badge status-offline";
+          document.getElementById("status-badge").innerHTML = '<span class="status-dot"></span>Status unavailable';
+        });
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 60000);
+  </script>
+
+</body>
+</html>
