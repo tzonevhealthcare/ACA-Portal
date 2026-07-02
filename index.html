@@ -305,6 +305,71 @@
       flex-shrink: 0;
     }
 
+    /* ── SCHEDULE SECTION ── */
+    .schedule-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .schedule-left h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a3c5e;
+      margin-bottom: 6px;
+    }
+
+    .schedule-left p {
+      font-size: 14px;
+      color: #718096;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    .schedule-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #1a3c5e, #2d6a9f);
+      color: white;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .schedule-btn:hover {
+      opacity: 0.9;
+    }
+
+    .divider-text {
+      text-align: center;
+      font-size: 13px;
+      color: #a0aec0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .divider-text::before,
+    .divider-text::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
     /* ── FORM SECTION ── */
     .form-card {
       background: white;
@@ -391,7 +456,7 @@
       <div class="info-card">
         <div class="icon">⚡</div>
         <div class="label">Avg Turnaround</div>
-        <div class="value">Same Business Day</div>
+        <div class="value">15–20 Minutes</div>
       </div>
       <div class="info-card">
         <div class="icon">📧</div>
@@ -441,6 +506,20 @@
         </div>
       </div>
     </div>
+
+    <!-- SCHEDULE -->
+    <div class="schedule-card">
+      <div class="schedule-left">
+        <h3>📅 Not Available Right Now?</h3>
+        <p>No problem — schedule a dedicated ACA enrollment appointment at a time that works for your client. Appointments are available 7 days a week.</p>
+      </div>
+      <a href="https://calendly.com/nthealthcare/aca-plan-enrollment" target="_blank" class="schedule-btn">
+        📆 Book an Appointment
+      </a>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="divider-text">or submit the application directly below</div>
 
     <!-- FORM -->
     <div class="form-card">
